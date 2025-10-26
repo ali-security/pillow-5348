@@ -21,7 +21,7 @@ concurrency:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -42,8 +42,8 @@ jobs:
           fedora-36-amd64,
           fedora-37-amd64,
           gentoo,
-          ubuntu-18.04-bionic-amd64,
-          ubuntu-20.04-focal-amd64,
+          ubuntu-22.04-bionic-amd64,
+          ubuntu-22.04-focal-amd64,
           ubuntu-22.04-jammy-amd64,
         ]
         dockerTag: [main]
@@ -102,7 +102,7 @@ jobs:
     permissions:
       contents: none
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Docker Test Successful
     steps:
       - name: Success

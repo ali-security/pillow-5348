@@ -25,8 +25,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [
-          "macos-latest",
-          "ubuntu-latest",
+          "macos-13",
+          "ubuntu-22.04",
         ]
         python-version: [
           "pypy3.9",
@@ -52,7 +52,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: MatteoH2O1999/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
@@ -84,7 +84,7 @@ jobs:
         if [ $REVERSE ]; then
           python3 -m pip install --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' pytest-reverse
         fi
-        if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+        if [ "${{ matrix.os }}" = "ubuntu-22.04" ]; then
           xvfb-run -s '-screen 0 1024x768x24' .ci/test.sh
         else
           .ci/test.sh
@@ -112,7 +112,7 @@ jobs:
     - name: Upload coverage
       uses: codecov/codecov-action@v3
       with:
-        flags: ${{ matrix.os == 'macos-latest' && 'GHA_macOS' || 'GHA_Ubuntu' }}
+        flags: ${{ matrix.os == 'macos-13' && 'GHA_macOS' || 'GHA_Ubuntu' }}
         name: ${{ matrix.os }} Python ${{ matrix.python-version }}
         gcov: true
 
@@ -120,7 +120,7 @@ jobs:
     permissions:
       contents: none
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Test Successful
     steps:
       - name: Success
