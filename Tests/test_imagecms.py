@@ -617,6 +617,11 @@ def test_auxiliary_channels_isolated():
                 assert_image_equal(test_image.convert(dst_format[2]), reference_image)
 
 
+def test_long_modes() -> None:
+    p = ImageCms.getOpenProfile("Tests/icc/sGrey-v2-nano.icc")
+    ImageCms.buildTransform(p, p, "ABCDEFGHI", "ABCDEFGHI")
+
+
 def test_constants_deprecation():
     for enum, prefix in {
         ImageCms.Intent: "INTENT_",

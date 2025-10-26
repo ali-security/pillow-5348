@@ -777,6 +777,27 @@ def test_variation_set_by_axes(font):
     _check_text(font, "Tests/images/variation_tiny_axes.png", 32.5)
 
 
+def test_too_many_characters(font):
+    with pytest.raises(ValueError):
+        with pytest.warns(DeprecationWarning):
+            font.getoffset("A" * 1000001)
+    with pytest.raises(ValueError):
+        with pytest.warns(DeprecationWarning):
+            font.getsize("A" * 1000001)
+    with pytest.raises(ValueError):
+        font.getmask2("A" * 1000001)
+
+    transposed_font = ImageFont.TransposedFont(font)
+    with pytest.raises(ValueError):
+        with pytest.warns(DeprecationWarning):
+            transposed_font.getsize("A" * 1000001)
+
+    default_font = ImageFont.load_default()
+    with pytest.raises(ValueError):
+        with pytest.warns(DeprecationWarning):
+            default_font.getsize("A" * 1000001)
+
+
 def test_textbbox_non_freetypefont():
     im = Image.new("RGB", (200, 200))
     d = ImageDraw.Draw(im)

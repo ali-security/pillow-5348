@@ -43,6 +43,15 @@ class Layout(IntEnum):
     RAQM = 1
 
 
+MAX_STRING_LENGTH = 1000000
+
+
+def _string_length_check(text):
+    if MAX_STRING_LENGTH is not None and len(text) > MAX_STRING_LENGTH:
+        msg = "too many characters in string"
+        raise ValueError(msg)
+
+
 def __getattr__(name):
     for enum, prefix in {Layout: "LAYOUT_"}.items():
         if name.startswith(prefix):
@@ -149,6 +158,7 @@ class ImageFont:
         :return: (width, height)
         """
         deprecate("getsize", 10, "getbbox or getlength")
+        _string_length_check(text)
         return self.font.getsize(text)
 
     def getmask(self, text, mode="", *args, **kwargs):
@@ -475,6 +485,7 @@ class FreeTypeFont:
         :return: (width, height)
         """
         deprecate("getsize", 10, "getbbox or getlength")
+        _string_length_check(text)
         # vertical offset is added for historical reasons
         # see https://github.com/python-pillow/Pillow/pull/4910#discussion_r486682929
         size, offset = self.font.getsize(text, "L", direction, features, language)
@@ -569,6 +580,7 @@ class FreeTypeFont:
         :return: A tuple of the x and y offset
         """
         deprecate("getoffset", 10, "getbbox")
+        _string_length_check(text)
         return self.font.getsize(text)[1]
 
     def getmask(
@@ -749,6 +761,7 @@ class FreeTypeFont:
                  :py:mod:`PIL.Image.core` interface module, and the text offset, the
                  gap between the starting coordinate and the first marking
         """
+        _string_length_check(text)
         if fill is _UNSPECIFIED:
             fill = Image.core.fill
         else:
@@ -885,6 +898,7 @@ class TransposedFont:
         See :ref:`deprecations <Font size and offset methods>` for more information.
         """
         deprecate("getsize", 10, "getbbox or getlength")
+        _string_length_check(text)
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=DeprecationWarning)
             w, h = self.font.getsize(text)

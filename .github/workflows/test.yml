@@ -82,7 +82,7 @@ jobs:
     - name: Test
       run: |
         if [ $REVERSE ]; then
-          python3 -m pip install pytest-reverse
+          python3 -m pip install --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' pytest-reverse
         fi
         if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
           xvfb-run -s '-screen 0 1024x768x24' .ci/test.sh
